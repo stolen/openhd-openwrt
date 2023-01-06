@@ -1,0 +1,142 @@
+<?xml version='1.0'?>
+<mavlink>
+    <include>common.xml</include>
+    <include>ardupilotmega.xml</include>
+
+    <enums>
+        <enum name="OPENHD_CMD">
+            <description>Commands for OpenHD</description>
+            <entry value="11200" name="OPENHD_CMD_INITIATE_CHANNEL_SEARCH" hasLocation="false" isDestination="false">
+                <description>Initiate channel search, aka find the channel the air unit is currently running on</description>
+                <param index="1" label="Instance" minValue="0" increment="1">frequency channels to scan, 0=2.4G and 5.8G, 1: 2.4G only, 2: 5G only</param>
+                <param index="5">Empty</param>
+                <param index="5">Empty</param>
+                <param index="6">Empty</param>
+                <param index="7">Empty</param>
+            </entry>
+
+            <entry value="11201" name="OPENHD_CMD_DUMMY1" hasLocation="false" isDestination="false">
+                <description>dummy1</description>
+                <param index="5">Empty</param>
+                <param index="5">Empty</param>
+                <param index="6">Empty</param>
+                <param index="7">Empty</param>
+            </entry>
+
+            <entry value="11202" name="OPENHD_CMD_DUMMY2" hasLocation="false" isDestination="false">
+                <description>dummy2</description>
+                <param index="5">Empty</param>
+                <param index="5">Empty</param>
+                <param index="6">Empty</param>
+                <param index="7">Empty</param>
+            </entry>
+
+        </enum>
+    </enums>
+
+
+    <messages>
+
+        <message id="1211" name="OPENHD_STATS_MONITOR_MODE_WIFI_CARD">
+            <wip />
+            <description>Statstics for a monitor mode wifi card</description>
+            <field type="uint8_t" name="card_index">A system / component might have more than one card for diversity</field>
+            <field type="int8_t" name="rx_rssi">rx_rssi</field>
+            <field type="uint64_t" name="count_p_received">All received (incoming) packets, not suported by all cards</field>
+            <field type="uint64_t" name="count_p_injected">All injected (outgoing) packets, not suported by all cards</field>
+            <field type="uint64_t" name="dummy0">dummy0</field>
+            <field type="uint64_t" name="dummy1">dummy1</field>
+        </message>
+
+        <message id="1212" name="OPENHD_STATS_MONITOR_MODE_WIFI_LINK">
+            <wip />
+            <description>todo</description>
+            <field type="int32_t" name="curr_tx_pps">tx packets per second</field>
+            <field type="int32_t" name="curr_rx_pps">rx packets per second</field>
+            <field type="int32_t" name="curr_tx_bps">tx bits per second</field>
+            <field type="int32_t" name="curr_rx_bps">rx bits per second</field>
+            <field type="int16_t" name="curr_rx_packet_loss_perc">curr_rx_packet_loss</field>
+            <field type="uint64_t" name="count_tx_inj_error_hint">count_tx_inj_error_hint</field>
+            <field type="uint64_t" name="count_tx_dropped_packets">count_tx_dropped_packets</field>
+            <field type="int32_t" name="unused0">unused0</field>
+            <field type="int32_t" name="unused1">unused1</field>
+            <field type="uint64_t" name="unused2">unused2</field>
+            <field type="uint64_t" name="unused3">unused3</field>
+        </message>
+
+        <message id="1213" name="OPENHD_STATS_TELEMETRY">
+            <wip />
+            <description>Telemetry is always bidirectional, so rx / tx stats are available from both air and ground</description>
+            <field type="int32_t" name="curr_tx_pps">tx packets per second</field>
+            <field type="int32_t" name="curr_rx_pps">rx packets per second</field>
+            <field type="int32_t" name="curr_tx_bps">tx bits per second</field>
+            <field type="int32_t" name="curr_rx_bps">rx bits per second</field>
+            <field type="int16_t" name="curr_rx_packet_loss_perc">curr_rx_packet_loss_perc</field>
+            <field type="uint64_t" name="unused_0">unused_0</field>
+            <field type="uint64_t" name="unused_1">unused_1</field>
+        </message>
+
+        <message id="1214" name="OPENHD_STATS_WB_VIDEO_AIR">
+            <wip />
+            <description>Generated on air,one per primary/secondary video</description>
+            <field type="uint8_t" name="link_index">link_index</field>
+            <field type="uint8_t" name="curr_video_codec">curr_video_codec</field>
+            <field type="int32_t" name="curr_recommended_bitrate">curr_recommended_bitrate</field>
+            <field type="int32_t" name="curr_measured_encoder_bitrate">curr_measured_encoder_bitrate</field>
+            <field type="int32_t" name="curr_injected_bitrate">curr_injected_bitrate (+FEC overhead)</field>
+            <field type="int32_t" name="curr_injected_pps">curr_injected_pps</field>
+            <field type="int32_t" name="curr_dropped_packets">curr_dropped_packets</field>
+            <field type="uint32_t" name="curr_fec_encode_time_avg_us">curr_fec_encode_time_avg_us</field>
+            <field type="uint32_t" name="curr_fec_encode_time_min_us">curr_fec_encode_time_min_us</field>
+            <field type="uint32_t" name="curr_fec_encode_time_max_us">curr_fec_encode_time_max_us</field>
+            <field type="uint16_t" name="curr_fec_block_size_avg">curr_fec_block_size_avg</field>
+            <field type="uint16_t" name="curr_fec_block_size_min">curr_fec_block_size_min</field>
+            <field type="uint16_t" name="curr_fec_block_size_max">curr_fec_block_size_max</field>
+            <field type="int32_t" name="unused0">unused0</field>
+            <field type="int32_t" name="unused1">unused1</field>
+        </message>
+
+        <message id="1215" name="OPENHD_STATS_WB_VIDEO_GROUND">
+            <wip />
+            <description>Generated on ground,one per primary/secondary video</description>
+            <field type="uint8_t" name="link_index">link_index</field>
+            <field type="int32_t" name="curr_incoming_bitrate">todo</field>
+            <field type="uint64_t" name="count_blocks_total">count_blocks_total</field>
+            <field type="uint64_t" name="count_blocks_lost">count_blocks_lost</field>
+            <field type="uint64_t" name="count_blocks_recovered">count_blocks_recovered</field>
+            <field type="uint64_t" name="count_fragments_recovered">count_fragments_recovered</field>
+            <field type="uint32_t" name="curr_fec_decode_time_avg_us">todo</field>
+            <field type="uint32_t" name="curr_fec_decode_time_min_us">todo</field>
+            <field type="uint32_t" name="curr_fec_decode_time_max_us">todo</field>
+            <field type="int32_t" name="unused0">unused0</field>
+            <field type="int32_t" name="unused1">unused1</field>
+        </message>
+
+        <message id="1216" name="OPENHD_ONBOARD_COMPUTER_STATUS_EXTENSION">
+            <wip />
+            <description>This is for values that cannot be already done with the mavlink onboard computer status message</description>
+            <field type="uint16_t" name="cpu_core_voltage_milliV">cpu_core_voltage_milliV</field>
+            <field type="uint8_t" name="over_current">bool over_current</field>
+            <field type="uint16_t" name="reserved1">reserved1</field>
+            <field type="uint16_t" name="reserved2">reserved1</field>
+            <field type="uint16_t" name="reserved3">reserved1</field>
+            <field type="uint16_t" name="reserved4">reserved1</field>
+        </message>
+
+        <message id="1260" name="OPENHD_LOG_MESSAGE">
+            <description>Log message for internal Open.HD components</description>
+            <field type="uint8_t" name="severity" enum="MAV_SEVERITY">severity level, relies on the definitions within RFC-5424.</field>
+            <field type="char[10]" name="tag">log tag,must not be null-terminated</field>
+            <field type="char[50]" name="message">log message,must not be null-terminated</field>
+            <field type="uint64_t" name="timestamp">timestamp when message was originally generated</field>
+        </message>
+
+        <message id="1261" name="OPENHD_VERSION_MESSAGE">
+            <description>The current Open.HD version running on the system sending the message</description>
+            <field type="char[30]" name="version">version string, 29 character max length since it *must* be null-terminated</field>
+            <field type="char[30]" name="commit_hash">commit_hash, 29 character max length since it *must* be null-terminated</field>
+        </message>
+
+    </messages>
+
+</mavlink>

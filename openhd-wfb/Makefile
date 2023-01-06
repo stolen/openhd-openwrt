@@ -17,11 +17,13 @@ include $(INCLUDE_DIR)/cmake.mk
 define Package/openhd-wfb
   SECTION:=net
   CATEGORY:=Network
-  SUBMENU:=Routing and Redirection
+  SUBMENU:=Wireless
   TITLE:=long range RTP over raw WiFI packets
-  DEPENDS+= +libstdcpp +libspdlog +libpcap +libsodium
+  DEPENDS+= +libstdcpp +libpcap +libsodium
   URL:=https://openhdfpv.org/
 endef
+
+PKG_BUILD_DEPENDS:=spdlog
 
 define Package/openhd-wfb/install
 	$(INSTALL_DIR) $(1)/usr/bin
