@@ -29,6 +29,7 @@ enum class WiFiCardType {
   Ralink,
   Intel,
   Broadcom,
+  Mediatek,
 };
 NLOHMANN_JSON_SERIALIZE_ENUM( WiFiCardType, {
    {WiFiCardType::Unknown, nullptr},
@@ -41,6 +42,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM( WiFiCardType, {
    {WiFiCardType::Ralink, "Ralink"},
    {WiFiCardType::Intel, "Intel"},
    {WiFiCardType::Broadcom, "Broadcom"},
+   {WiFiCardType::Mediatek, "Mediatek"},
 });
 
 static std::string wifi_card_type_to_string(const WiFiCardType &card_type) {
@@ -54,6 +56,7 @@ static std::string wifi_card_type_to_string(const WiFiCardType &card_type) {
 	case WiFiCardType::Ralink:return  "Ralink";
 	case WiFiCardType::Intel:return  "Intel";
 	case WiFiCardType::Broadcom:return  "Broadcom";
+	case WiFiCardType::Mediatek:return  "Mediatek";
 	default: return "unknown";
   }
 }
@@ -118,6 +121,9 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WiFiCard,device_name,mac,phy80211_index,drive
 // Only Atheros AR9271 doesn't support setting the mcs index
 static bool wifi_card_supports_variable_mcs(const WiFiCard& wifi_card){
   if(wifi_card.type==WiFiCardType::Atheros9khtc || wifi_card.type==WiFiCardType::Atheros9k){
+    return false;
+  }
+  if(wifi_card.type==WiFiCardType::Mediatek){
     return false;
   }
   return true;

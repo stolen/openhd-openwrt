@@ -19,6 +19,7 @@ namespace OnboardComputerStatus {
 // Return the CPU/SOC temperature of the system the generator is running on
 // Unit: Degree ?
 static int readTemperature() {
+  return -1;
   int cpu_temperature = 0;
   FILE *fp;
   try {
@@ -115,6 +116,7 @@ static int read_curr_frequency_mhz(const std::string& which){
 // 28.July 2022: This seems to work on both rpi4 and my ubuntu pc.
 // Also, I am pretty sure we can use -bn1 - top should report from "the last refresh."
 static std::optional<int> read_cpuload_once_blocking(){
+  return std::nullopt;
   auto res_opt=OHDUtil::run_command_out(R"lit(top -bn1 | grep "Cpu(s)")lit");
   // The result from that should look like this: %Cpu(s): 31,0 us,  2,0 sy,  0,0 ni, 67,0 id,  0,0 wa,  0,0 hi,  0,0 si,  0,0 st
   // Where "67.0 id" is what we are after - "time spent in the kernel idle handler"

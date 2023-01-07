@@ -155,7 +155,7 @@ class DPlatform {
     return {};
   }
   static std::pair<PlatformType,BoardType> detect_pc(){
-    const auto arch_opt=OHDUtil::run_command_out("arch");
+    const auto arch_opt=OHDUtil::run_command_out("uname -m");
     if(arch_opt==std::nullopt){
       openhd::log::get_default()->warn("Arch not found");
       return {PlatformType::Unknown,BoardType::Unknown};
