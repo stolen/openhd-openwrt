@@ -21,7 +21,8 @@ define Package/openhd
   TITLE:=Open source digital FPV ecosystem
   DEPENDS+= +libstdcpp +libpcap +libsodium +boost +boost-filesystem \
 			+libgstreamer1 +libgst1app +libgst1sdp +libgst1video \
-			+libusb-1.0
+			+libusb-1.0 \
+			+wireless-tools
   URL:=https://openhdfpv.org/
 endef
 

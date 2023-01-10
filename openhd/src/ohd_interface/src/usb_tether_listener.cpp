@@ -38,7 +38,7 @@ void USBTetherListener::loopInfinite() {
 }
 
 void USBTetherListener::connectOnce() {
-  const char* connectedDevice="/sys/class/net/usb0";
+  const char* connectedDevice="/sys/class/net/br-lan";
   // in regular intervals, check if the device becomes available - if yes, the user connected an ethernet hotspot device.
   while (!loopThreadStop){
     std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -57,14 +57,21 @@ void USBTetherListener::connectOnce() {
   // now we find the IP of the connected device so we can forward video and more to it.
   // bit more complicated than needed.
   //const auto run_command_result_opt=OHDUtil::run_command_out("ip route show 0.0.0.0/0 dev usb0 | cut -d\\  -f3");
-  const auto run_command_result_opt=OHDUtil::run_command_out("ip route list dev usb0");
+  const auto run_command_result_opt=OHDUtil::run_command_out("fgrep br-lan /proc/net/arp | cut -d' ' -f1 |tr -d '\n'");
   if(run_command_result_opt==std::nullopt){
     openhd::log::get_default()->warn("USBHotspot run command out no result");
     return;
   }
   const auto& run_command_result=run_command_result_opt.value();
-  const auto ip_external_device= OHDUtil::string_in_between("default via "," proto",run_command_result);
-  const auto ip_self_network= OHDUtil::string_in_between("src "," metric",run_command_result);
+  const auto ip_external_device= run_command_result;
+
+  const auto run_command_result_opt2=OHDUtil::run_command_out("ip address show br-lan | fgrep inet | head -1");
+  if(run_command_result_opt2==std::nullopt){
+    openhd::log::get_default()->warn("USBHotspot run command out no result");
+    return;
+  }
+  const auto& run_command_result2=run_command_result_opt2.value();
+  const auto ip_self_network= OHDUtil::string_in_between("inet ","/",run_command_result2);
 
   const auto external_device=openhd::ExternalDevice{ip_self_network,ip_external_device};
   // Check if both are valid IPs (otherwise, perhaps the parsing got fucked up)

@@ -529,7 +529,8 @@ static std::string createIpCameraStream(const std::string &url) {
 static std::string create_parse_and_rtp_packetize(const VideoCodec videoCodec) {
   std::stringstream ss;
   ss << "queue ! ";
-  ss << create_parse_for_codec(videoCodec);
+  /* Disabled because OpenWRT does not build h264 parser mod -- need to modify package */
+  //ss << create_parse_for_codec(videoCodec);
   ss << create_rtp_packetize_for_codec(videoCodec,1024);
   return ss.str();
 }
